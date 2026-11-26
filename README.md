@@ -51,6 +51,24 @@ Use tinySA firmware v1.4-266 or newer. Older firmware can lose a command sent ov
 answering until it is restarted; the app then shows "Old firmware" next to the device, with a link
 to the firmware update.
 
+## 简体中文界面 (Simplified Chinese UI)
+
+This fork adds a Simplified Chinese (zh_CN) interface:
+
+- 278 UI strings are translated (menus, toolbar, control panel, generator, console, battery,
+  screen, settings and firmware dialogs, graph axis labels, connection states).
+- The language is selected with the command-line option `--lang zh_CN` (or `--lang en` for
+  English). Without `--lang`, a Chinese system locale is detected automatically.
+
+```
+tinySA-App.exe --lang zh_CN
+```
+
+- The translation source is `translations/tinySA-app_zh_CN.ts`; it is compiled to
+  `translations/tinySA-app_zh_CN.qm` and embedded into the executable through
+  `translations/translations.qrc`, so no external language file is needed at run time.
+  To change the wording, edit the `.ts` and run `lrelease` (or `build.bat`).
+
 ## Building
 Requirements: Visual Studio 2026 (Community is fine) with *Desktop development with C++*, and
 Qt 6.10 for `msvc2022_64` including *Qt Serial Port*, installed under `C:\Qt`.
@@ -61,6 +79,20 @@ build.bat dist     the same, plus a ready-to-run dist\ folder and tinySA-App-<ve
 ```
 
 In Visual Studio use *File > Open > Folder* on this directory (CMake project).
+
+This fork also builds with **MinGW-w64 GCC 13** and Qt 6.10 `win64_mingw` (no Visual Studio
+needed). A few changes were required for GCC / Qt 6.10 compatibility — see the commit
+"Add Simplified Chinese localization and MinGW build fixes":
+
+- `QList::append({...})` braced-init ambiguity → explicit element types (`append(T{...})`).
+- `res/tinySA-App.rc` version string fixed for `windres`.
+- `AUTORCC ON` so the translation resource is embedded.
+
+```
+cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_PREFIX_PATH=<Qt>/6.10.3/mingw_64
+cmake --build build --parallel
+```
 
 ### Editing the screens
 Every window is a Qt Designer form in `src/ui/*.ui` (main window, generator page, console,
