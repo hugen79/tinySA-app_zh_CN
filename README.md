@@ -54,11 +54,14 @@ to the firmware update.
 ## 简体中文界面 (Simplified Chinese UI)
 
 This fork adds a Simplified Chinese (zh_CN) interface:
+本 fork 新增了简体中文（zh_CN）界面：
 
 - 278 UI strings are translated (menus, toolbar, control panel, generator, console, battery,
   screen, settings and firmware dialogs, graph axis labels, connection states).
+  已翻译 278 条界面字符串（菜单、工具栏、控制面板、发生器、控制台、电池、屏幕、设置与固件对话框、图表坐标轴标签、连接状态）。
 - The language is selected with the command-line option `--lang zh_CN` (or `--lang en` for
   English). Without `--lang`, a Chinese system locale is detected automatically.
+  界面语言通过命令行选项 `--lang zh_CN` 选择（`--lang en` 为英文）。不指定 `--lang` 时，若系统为中文区域会自动检测。
 
 ```
 tinySA-App.exe --lang zh_CN
@@ -68,6 +71,9 @@ tinySA-App.exe --lang zh_CN
   `translations/tinySA-app_zh_CN.qm` and embedded into the executable through
   `translations/translations.qrc`, so no external language file is needed at run time.
   To change the wording, edit the `.ts` and run `lrelease` (or `build.bat`).
+  翻译源文件为 `translations/tinySA-app_zh_CN.ts`；它被编译为 `translations/tinySA-app_zh_CN.qm`，
+  并通过 `translations/translations.qrc` 嵌入可执行文件，因此运行时无需外部语言文件。
+  如需修改文案，编辑 `.ts` 后运行 `lrelease`（或 `build.bat`）。
 
 ## Building
 Requirements: Visual Studio 2026 (Community is fine) with *Desktop development with C++*, and
