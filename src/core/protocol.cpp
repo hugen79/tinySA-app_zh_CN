@@ -24,7 +24,7 @@ QVector<RxEvent> RxParser::feed(const QByteArray &bytes)
     m_buf.remove(0, m_pos);
     m_pos = 0;
     if (m_state == State::Text && m_buf.size() > 65536) {  // binary junk without newlines
-        out.append({RxEvent::Line, m_buf.left(80) + "..."});
+        out.append(RxEvent{RxEvent::Line, m_buf.left(80) + "..."});
         m_buf.clear();
     }
     return out;
@@ -82,7 +82,7 @@ bool RxParser::step(QVector<RxEvent> &out)
     case State::Capture:
         if (avail < m_captureBytes)
             return false;
-        out.append({RxEvent::Pixels, m_buf.mid(m_pos, m_captureBytes)});
+        out.append(RxEvent{RxEvent::Pixels, m_buf.mid(m_pos, m_captureBytes)});
         m_pos += m_captureBytes;
         m_state = State::Text;
         return true;
@@ -173,7 +173,7 @@ bool RxParser::textStep(QVector<RxEvent> &out)
         if (m_swallowPrompt)
             m_swallowPrompt = false;
         else
-            out.append({RxEvent::Prompt});
+            out.append(RxEvent{RxEvent::Prompt});
         return true;
     }
     if (atPromptPrefix())
@@ -200,14 +200,14 @@ bool RxParser::textStep(QVector<RxEvent> &out)
 
     if (!m_echo.isEmpty() && line.endsWith(m_echo)) {
         m_echo.clear();
-        out.append({RxEvent::Echo, line});
+        out.append(RxEvent{RxEvent::Echo, line});
         if (m_body == Body::ScanRaw)
             m_state = State::ScanStart;
         else if (m_body == Body::Capture)
             m_state = State::CaptureHead;
         return true;
     }
-    out.append({RxEvent::Line, line});
+    out.append(RxEvent{RxEvent::Line, line});
     return true;
 }
 
@@ -246,7 +246,7 @@ bool RxParser::scanStep(QVector<RxEvent> &out)
     QByteArray line = m_buf.mid(m_pos, nl - m_pos);
     m_pos = nl + 1;
     flushScan(out);  // keep event order: points before the text
-    out.append({RxEvent::Line, line.trimmed()});
+    out.append(RxEvent{RxEvent::Line, line.trimmed()});
     return true;
 }
 

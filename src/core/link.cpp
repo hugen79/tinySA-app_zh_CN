@@ -170,7 +170,7 @@ void DeviceLink::handshake()
         // the CTCSS + 1 kHz tone (Ultra firmware from v1.4-341): the unit's state, before the
         // rest of the handshake
         if (ok && lines.join(' ').contains("ctcss"))
-            m_queue.prepend({"modulation ctcss", {}, 0, 3000, [this](bool ok, const QStringList &lines) {
+            m_queue.prepend(Cmd{"modulation ctcss", {}, 0, 3000, [this](bool ok, const QStringList &lines) {
                 const QString state = lines.value(0).trimmed();
                 if (ok && (state == "on" || state == "off"))
                     m_info.ctcssTone = state == "on";
@@ -194,7 +194,7 @@ void DeviceLink::handshake()
         // left off by an app that did not close properly (no-op when on); a tracking generator's
         // goes off right away
         if (m_info.has("ui") && !m_isTracker)
-            m_queue.prepend({"ui on"});
+            m_queue.prepend(Cmd{"ui on"});
         m_ready = true;
         m_batteryDue = true;
         emit opened(m_info);

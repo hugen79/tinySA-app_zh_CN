@@ -71,7 +71,7 @@ QVector<SpectrumView::Mark> SpectrumView::markLayout() const
         at.moveCenter({tip.x(), above ? y - at.height() / 2 : y + at.height() / 2});
         at.moveLeft(std::clamp(at.left(), double(r.left()), double(r.right()) - at.width()));
         at.moveTop(std::clamp(at.top(), double(r.top()), double(r.bottom()) - at.height()));
-        out.append({text, at, c, tip, kind});
+        out.append(Mark{text, at, c, tip, kind});
     };
     // user markers: dotted line, triangle on the trace, name above it
     for (const MarkerMark &m : m_view.showMarkers ? m_marks : QList<MarkerMark>{}) {

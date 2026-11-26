@@ -7,6 +7,7 @@ __recovery/
 tinySA-App.res
 build/
 dist/
+tinySA-app/
 test/out/
 *.zip
 build-rel/

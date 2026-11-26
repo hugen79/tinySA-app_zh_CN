@@ -18,12 +18,12 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "FileDescription", "tinySA-App spectrum analyser PC software"
-            VALUE "FileVersion", APP_VERSION
+            VALUE "FileVersion", "2.0.0"
             VALUE "InternalName", "tinySA-App"
             VALUE "LegalCopyright", "GPL-3.0-or-later"
             VALUE "OriginalFilename", "tinySA-App.exe"
             VALUE "ProductName", "tinySA-App"
-            VALUE "ProductVersion", APP_VERSION
+            VALUE "ProductVersion", "2.0.0"
         END
     END
     BLOCK "VarFileInfo"

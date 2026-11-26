@@ -43,7 +43,7 @@ QVector<UltraOutput> ultraOutputs(const DeviceInfo &d)
     for (const bool harmonic : {false, true})
         for (const bool mixer : {true, false}) {
             const QString name = harmonic ? (mixer ? "Ultra accurate" : "Ultra cleanest") : (mixer ? "Accurate" : "Cleanest");
-            out.append({mixer, harmonic, ultraOutputKey(mixer, harmonic),
+            out.append(UltraOutput{mixer, harmonic, ultraOutputKey(mixer, harmonic),
                         name + ", max " + formatHz(ultraMaxHz(d.hardware, mixer, harmonic), 1e7)});
         }
     return out;

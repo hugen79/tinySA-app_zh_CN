@@ -1841,8 +1841,8 @@ private slots:
         QByteArray fw(5000, 0);
         for (int i = 0; i < fw.size(); ++i)
             fw[i] = char(i * 7);
-        img.segments.append({0x08000000, fw});
-        img.segments.append({0x08010100, QByteArray(300, char(0x33))});
+        img.segments.append(FirmwareSegment{0x08000000, fw});
+        img.segments.append(FirmwareSegment{0x08010100, QByteArray(300, char(0x33))});
         int lastPercent = 0;
         DfuSe writer(boot, [&](int p, const QString &) { lastPercent = p; });
         QVERIFY2(writer.write(img, true), qPrintable(writer.error()));
@@ -1862,13 +1862,13 @@ private slots:
         FakeBootloader boot(64);
         DfuSe dfu(boot);
         FirmwareImage tooBig;
-        tooBig.segments.append({0x08000000, QByteArray(200 * 1024, 1)});
+        tooBig.segments.append(FirmwareSegment{0x08000000, QByteArray(200 * 1024, 1)});
         QVERIFY(!dfu.write(tooBig, false));
         QVERIFY(dfu.error().contains("does not fit"));
         // a bootloader error (erase outside its flash) is reported, not ignored
         boot.base = 0x08010000;
         FirmwareImage img;
-        img.segments.append({0x08000000, QByteArray(10, 1)});
+        img.segments.append(FirmwareSegment{0x08000000, QByteArray(10, 1)});
         QVERIFY(!dfu.write(img, false));
         QVERIFY2(dfu.error().contains("address out of range"), qPrintable(dfu.error()));
         // unknown layout: the smallest tinySA flash (64 x 2 KB) is assumed

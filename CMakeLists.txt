@@ -97,9 +97,10 @@ qt_add_executable(tinySA-App WIN32
     src/ui/firmwaredialog.cpp
     src/ui/firmwaredialog.ui
     res/tinySA-App.rc
+    translations/translations.qrc
 )
 target_include_directories(tinySA-App PRIVATE src/ui)
-set_target_properties(tinySA-App PROPERTIES AUTOUIC_SEARCH_PATHS src/ui)
+set_target_properties(tinySA-App PROPERTIES AUTOUIC_SEARCH_PATHS src/ui AUTORCC ON)
 target_link_libraries(tinySA-App PRIVATE tinysa_core tinysa_dfu qcustomplot Qt6::Widgets Qt6::Test)
 
 # version 2.0.0-<commits>-g<hash>[-dirty] like the firmware's git describe, for the About box,

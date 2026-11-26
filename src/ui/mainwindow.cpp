@@ -110,7 +110,7 @@ MainWindow::MainWindow(bool simulators, const QString &settingsPath, QWidget *pa
     connect(ui->actionRecord, &QAction::toggled, this, &MainWindow::setRecording);
     connect(ui->actionExit, &QAction::triggered, this, &QWidget::close);
     connect(ui->actionAbout, &QAction::triggered, this, [this] {
-        QMessageBox::about(this, "About tinySA-App",
+        QMessageBox::about(this, tr("About tinySA-App"),
                            QString("<b>tinySA-App %1</b><p>PC software for the tinySA spectrum analyzers.</p>"
                                    "<p>GPL-3.0-or-later. Built with Qt %2 and QCustomPlot.</p>")
                                .arg(QCoreApplication::applicationVersion(), qVersion()));
@@ -299,8 +299,8 @@ void MainWindow::onConnectClicked(bool checked)
 {
     if (checked) {
         ui->connectButton->setEnabled(false);
-        ui->connectButton->setText("Connecting...");
-        ui->deviceLabel->setText("Connecting to " + ui->portCombo->currentText());
+        ui->connectButton->setText(tr("Connecting..."));
+        ui->deviceLabel->setText(tr("Connecting to ") + ui->portCombo->currentText());
         m_session.connectDevice(ui->portCombo->currentData().toString());
     } else {
         m_session.disconnectDevice();
@@ -312,7 +312,7 @@ void MainWindow::onConnected(const DeviceInfo &info)
     m_settings.port = info.port;
     ui->connectButton->setEnabled(true);
     ui->connectButton->setChecked(true);
-    ui->connectButton->setText("Disconnect");
+    ui->connectButton->setText(tr("Disconnect"));
     ui->portCombo->setEnabled(false);
     ui->deviceLabel->setText(info.title());
     setWindowTitle("tinySA-App - " + info.title());
@@ -329,9 +329,9 @@ void MainWindow::onDisconnected(const QString &reason)
 {
     ui->connectButton->setEnabled(true);
     ui->connectButton->setChecked(false);
-    ui->connectButton->setText("Connect");
+    ui->connectButton->setText(tr("Connect"));
     ui->portCombo->setEnabled(true);
-    ui->deviceLabel->setText("Not connected");
+    ui->deviceLabel->setText(tr("Not connected"));
     setWindowTitle("tinySA-App");
     ui->deviceRangeButton->setEnabled(false);
     m_batteryLabel->clear();

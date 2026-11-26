@@ -31,25 +31,25 @@ void MainWindow::setupMemoryButton(int m, QToolButton *b)
 {
     connect(b, &QToolButton::toggled, this, [this, m](bool on) { ui->spectrum->setShown(m + 1, on); });
     auto *menu = new QMenu(b);
-    menu->addAction("Store live trace", this, [this, m, b] {
+    menu->addAction(tr("Store live trace"), this, [this, m, b] {
         m_session.traces().store(m);
         renderTraces(true);
         b->setChecked(true);
     });
-    menu->addAction("Load CSV...", this, [this, m, b] {
+    menu->addAction(tr("Load CSV..."), this, [this, m, b] {
         const QString path = QFileDialog::getOpenFileName(this, b->text() + " - load", m_settings.recordFolder,
                                                           "CSV files (*.csv);;All files (*)");
         if (!path.isEmpty() && loadMemory(m, path))
             b->setChecked(true);
     });
-    menu->addAction("Save CSV...", this, [this, m, b] {
+    menu->addAction(tr("Save CSV..."), this, [this, m, b] {
         const QString path = QFileDialog::getSaveFileName(this, b->text() + " - save", m_settings.recordFolder,
                                                           "CSV files (*.csv)");
         QString err;
         if (!path.isEmpty() && !writeTraceCsv(path, m_session.traces().memory(m), m_settings.csv, &err, b->text()))
             error("Cannot save " + path + ": " + err);
     });
-    menu->addAction("Clear", this, [this, m, b] {
+    menu->addAction(tr("Clear"), this, [this, m, b] {
         m_session.traces().setMemory(m, {});
         renderTraces(true);
         b->setChecked(false);

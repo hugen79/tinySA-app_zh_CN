@@ -12,8 +12,8 @@ BatteryWindow::BatteryWindow(QWidget *parent) : QWidget(parent, Qt::Window), ui(
     auto time = QSharedPointer<QCPAxisTickerDateTime>::create();
     time->setDateTimeFormat("hh:mm");
     p->xAxis->setTicker(time);
-    p->xAxis->setLabel("Time");
-    p->yAxis->setLabel("Battery (V)");
+    p->xAxis->setLabel(tr("Time"));
+    p->yAxis->setLabel(tr("Battery (V)"));
     p->yAxis->setRange(3.0, 4.3);
     const double now = QDateTime::currentMSecsSinceEpoch() / 1000.0;
     p->xAxis->setRange(now, now + 600);
@@ -69,6 +69,6 @@ void BatteryWindow::addSample(int mV)
 void BatteryWindow::clear()
 {
     ui->batteryPlot->graph(0)->data()->clear();
-    ui->batteryReadout->setText("Cleared");
+    ui->batteryReadout->setText(tr("Cleared"));
     ui->batteryPlot->replot();
 }

@@ -3,6 +3,8 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QLocale>
+#include <QTranslator>
 
 #ifndef APP_VERSION  // set by CMakeLists.txt from git
 #define APP_VERSION "2.0.0"
@@ -23,8 +25,18 @@ int main(int argc, char **argv)
         {"ini", "Settings file (default: next to the exe, else AppData).", "file"},
         {"script", "Run an autotest script, then exit with the number of failures.", "file"},
         {"out", "Autotest output directory.", "dir", "test/out"},
+        {"lang", "Interface language (zh_CN), or auto-detect from the system.", "lang"},
     });
     cli.process(app);
+
+    // Interface translation: --lang zh_CN, or Chinese system locale, or English.
+    QTranslator translator;
+    QString lang = cli.value("lang");
+    if (lang.isEmpty() && QLocale::system().language() == QLocale::Chinese)
+        lang = QStringLiteral("zh_CN");
+    if (!lang.isEmpty() && lang.compare(QStringLiteral("en"), Qt::CaseInsensitive) != 0
+        && translator.load(QStringLiteral(":/translations/tinySA-app_") + lang))
+        app.installTranslator(&translator);
 
     const QString ini = cli.isSet("ini") ? cli.value("ini") : AppSettings::defaultPath();
     MainWindow win(cli.isSet("sim") || cli.value("port").startsWith("sim:"), ini);

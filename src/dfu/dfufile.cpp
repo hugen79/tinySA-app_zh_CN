@@ -35,7 +35,7 @@ bool readFirmware(const QString &path, FirmwareImage *image, QString *error, qui
         *error = "the file is empty";
         return false;
     }
-    image->segments.append({baseAddress, data});
+    image->segments.append(FirmwareSegment{baseAddress, data});
     return true;
 }
 
@@ -71,7 +71,7 @@ bool parseIntelHex(const QByteArray &text, FirmwareImage *image, QString *error)
             if (!segs.isEmpty() && segs.last().address + segs.last().data.size() == addr)
                 segs.last().data += payload;
             else
-                segs.append({addr, payload});
+                segs.append(FirmwareSegment{addr, payload});
         } else if (type == 1) {
             break;
         } else if (type == 2 && n == 2) {
@@ -137,7 +137,7 @@ bool parseDfuSe(const QByteArray &file, FirmwareImage *image, QString *error)
                 *error = "DfuSe element beyond the end of the file";
                 return false;
             }
-            image->segments.append({addr, file.mid(at, size)});
+            image->segments.append(FirmwareSegment{addr, file.mid(at, size)});
             at += int(size);
         }
     }
@@ -196,7 +196,7 @@ FlashLayout parseFlashLayout(const QString &s, bool *ok)
                 continue;
             const QString unit = gm.captured(3).trimmed().toUpper();
             const int mult = unit == "K" ? 1024 : unit == "M" ? 1024 * 1024 : 1;
-            layout.sectors.append({gm.captured(1).toInt(), gm.captured(2).toInt() * mult});
+            layout.sectors.append(std::pair<int, int>{gm.captured(1).toInt(), gm.captured(2).toInt() * mult});
         }
         good = !layout.sectors.isEmpty();
     }

@@ -74,7 +74,7 @@ QString LogSiTicker::getTickLabel(double tick, const QLocale &locale, QChar form
 SpectrumView::SpectrumView(QWidget *parent) : QCustomPlot(parent)
 {
     xAxis->setTicker(QSharedPointer<SiTicker>::create());
-    xAxis->setLabel("Frequency (Hz)");
+    xAxis->setLabel(tr("Frequency (Hz)"));
     for (int i = kTraces - 1; i >= 0; --i) {  // added last = drawn on top: the live trace
         m_graph[i] = addGraph();
         m_graph[i]->setName(kTraceNames[i]);

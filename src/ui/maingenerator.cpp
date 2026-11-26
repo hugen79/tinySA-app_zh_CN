@@ -55,7 +55,7 @@ void MainWindow::showActivity(int activity)
 
 void MainWindow::showGeneratorStatus()
 {
-    m_genLabel->setText("Generator · " + ui->generatorPanel->statusText());
+    m_genLabel->setText(tr("Generator · ") + ui->generatorPanel->statusText());
 }
 
 void MainWindow::escape()

@@ -10,8 +10,8 @@ void MainWindow::setupTracking()
         if (!checked)
             return m_session.disconnectTracker();
         ui->trackerConnectButton->setEnabled(false);
-        ui->trackerConnectButton->setText("Connecting...");
-        ui->trackerLabel->setText("Connecting to " + ui->trackerPortCombo->currentText());
+        ui->trackerConnectButton->setText(tr("Connecting..."));
+        ui->trackerLabel->setText(tr("Connecting to ") + ui->trackerPortCombo->currentText());
         m_session.connectTracker(ui->trackerPortCombo->currentData().toString());
     });
     connect(ui->trackCheck, &QCheckBox::clicked, this, [this](bool on) {
@@ -48,7 +48,7 @@ void MainWindow::setupTracking()
         m_settings.trackerPort = info.port;
         ui->trackerConnectButton->setEnabled(true);
         ui->trackerConnectButton->setChecked(true);
-        ui->trackerConnectButton->setText("Disconnect");
+        ui->trackerConnectButton->setText(tr("Disconnect"));
         ui->trackerPortCombo->setEnabled(false);
         const GenLimits l = trackerLimits(info, m_session.track());
         QSignalBlocker block(ui->trackLevelSpin);
@@ -69,9 +69,9 @@ void MainWindow::setupTracking()
     connect(&m_session, &Session::trackerDisconnected, this, [this](const QString &reason) {
         ui->trackerConnectButton->setEnabled(true);
         ui->trackerConnectButton->setChecked(false);
-        ui->trackerConnectButton->setText("Connect");
+        ui->trackerConnectButton->setText(tr("Connect"));
         ui->trackerPortCombo->setEnabled(true);
-        ui->trackerLabel->setText("Not connected");
+        ui->trackerLabel->setText(tr("Not connected"));
         ui->trackerLabel->setToolTip({});
         ui->trackOutputCombo->hide();
         showTrack(m_session.track());

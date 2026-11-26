@@ -123,7 +123,7 @@ void DeviceLink::probeGenerator(const QStringList &levelReply)
     m_info.gen.extGainDb = m_info.extGainDb;  // read just before
     // read what else the unit can tell, before the rest of the handshake (not the level:
     // `attenuate` reports the attenuator, on a ZS407 5 dB below the level)
-    m_queue.prepend({"sweeptime", {}, 0, 3000, [this](bool ok, const QStringList &lines) {
+    m_queue.prepend(Cmd{"sweeptime", {}, 0, 3000, [this](bool ok, const QStringList &lines) {
         if (ok)
             m_info.gen.sweepS = lastValue(lines);
     }});

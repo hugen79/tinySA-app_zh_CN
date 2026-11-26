@@ -103,12 +103,12 @@ QVector<DigitEdit::Cell> DigitEdit::cells(QFont *digitFont) const
     while (first < point - 1 && digits[first] == '0')
         ++first;
     QVector<Cell> out;
-    out.append({n < 0 && m_leadingZeros ? QString(QChar(0x2212)) : QString()});  // sign slot
+    out.append(Cell{n < 0 && m_leadingZeros ? QString(QChar(0x2212)) : QString()});  // sign slot
     for (int i = 0; i < total; ++i) {
         if (i == point && m_decimals > 0)
-            out.append({"."});
+            out.append(Cell{"."});
         else if (m_group && i > point && (i - point) % 3 == 0)
-            out.append({" "});
+            out.append(Cell{" "});
         Cell c{QString(digits[i]), total - 1 - i};
         c.dim = i < first && m_leadingZeros;
         c.blank = i < first && !m_leadingZeros;

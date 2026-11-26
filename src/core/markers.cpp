@@ -52,7 +52,7 @@ QPointF tracePeak(const Trace &t, bool max)
 
 int MarkerSet::add(double hz)
 {
-    m_list.append({hz, false});
+    m_list.append(Marker{hz, false});
     return m_selected = int(m_list.size()) - 1;
 }
 
@@ -144,6 +144,6 @@ void MarkerSet::deserialize(const QString &s)
         bool ok = false;
         const double hz = (delta ? p.mid(2) : p).toDouble(&ok);
         if (ok)
-            m_list.append({hz, delta});
+            m_list.append(Marker{hz, delta});
     }
 }
